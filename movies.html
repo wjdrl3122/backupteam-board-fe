@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 100%;
+            text-align: center;
+        }
+
+        #pagination {
+            list-style: none;
+            text-align: center;    
+        }
+        
+        #pagination > li {
+            display: inline;
+        }
+
+        a {
+            text-decoration-line: none;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>영화 목록보기</h1>
+    <a href="index.html">홈으로가기</a>
+    <a href="register.html">무비 등록</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>조회수</th>
+            <th>아이디</th>
+            <th>등록날짜</th>
+        </tr>
+        <tbody id="movieList"></tbody>
+    </table>
+    <ul id="pagination">
+
+    </ul>
+</body>
+</html>
+<script>
+    const urlSearch = new URLSearchParams(location.search);
+    const page = urlSearch.get('page')
+
+    fetch(`http://localhost:3000/movies?page=${page}`)
+    .then((response) => response.json())
+    .then((movies) => {
+        const html = movies.movies.map(movie => {
+        return `<tr>
+                <td>${movie.id}</td>
+                <td><a href="movie.html?id=${movie.id}">${movie.movie_title}</a></td>
+                <td>${movie.hit_count}</td>
+                <td>${movie.user_id}</td>
+                <td>${movie.created_at}</td>
+            </tr>`
+        })
+        
+    document.getElementById('movieList').innerHTML = html.join(' ')
+
+    for(let i = 1; i <= movies.pages; i++){
+        let a = `<li><a href="movies.html?page=${i}">${i}</a></li>`
+        let b = document.getElementById('pagination')
+        b.innerHTML= b.innerHTML+a;
+    } 
+    })     
+</script>
+<script>
+
+
+</script>

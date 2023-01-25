@@ -1,0 +1,29 @@
+<h1>서버 테스트</h1>
+<script>
+    //영화 가져오기
+    fetch("http://localhost:3000/movies")
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("전체 영화 가져오기 :", data)
+        });
+
+    fetch("http://localhost:3000/movies/3")
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("영화 하나 가져오기 :" , data)
+        })
+
+    fetch("http://localhost:3000/movies", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "movie_title" : "avatar3",
+            "user_id" : 9
+        })
+    }).then((response) => response.json())
+        .then((data) => {
+            console.log("영화 추가하기 :", data)
+        })
+</script>
